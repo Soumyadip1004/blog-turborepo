@@ -8,7 +8,6 @@
   "files": {
     "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
   },
-
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
