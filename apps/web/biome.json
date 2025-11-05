@@ -6,15 +6,8 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
       "jsxQuoteStyle": "single",
-      "semicolons": "always",
-      "trailingCommas": "all",
-      "bracketSameLine": false,
-      "bracketSpacing": true,
-      "arrowParentheses": "asNeeded",
-      "quoteProperties": "asNeeded",
-      "lineEnding": "lf"
+      "bracketSameLine": false
     }
   },
   "linter": {
