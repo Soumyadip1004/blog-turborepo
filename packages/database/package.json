@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "@repo/typescript-config": "*",
-    "@prisma/client": "^6.18.0",
-    "node": "^25.1.0"
+    "@prisma/client": "^6.18.0"
   },
   "exports": {
     ".": "./src/index.ts"
