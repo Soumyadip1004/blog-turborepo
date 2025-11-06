@@ -1,0 +1,21 @@
+{
+  "name": "@repo/auth",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput"
+  },
+  "dependencies": {
+    "@repo/db": "*",
+    "better-auth": "^1.3.34",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "@types/node": "^24.10.0"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  }
+}

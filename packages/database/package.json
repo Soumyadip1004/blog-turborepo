@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --skip-generate",
     "db:deploy": "prisma migrate deploy",
@@ -14,10 +16,10 @@
     "prisma": "^6.18.0"
   },
   "dependencies": {
-    "@repo/typescript-config": "*",
-    "@prisma/client": "^6.18.0"
+    "@prisma/client": "^6.18.0",
+    "@repo/typescript-config": "*"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./dist/index.js"
   }
 }
