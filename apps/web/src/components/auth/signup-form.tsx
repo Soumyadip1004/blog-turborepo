@@ -1,5 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { authClient } from '@repo/auth';
 import { type SignUpInput, SignUpSchema } from '@repo/schemas';
 import { Button } from '@repo/ui/components/button';
 import {
@@ -10,11 +11,15 @@ import {
   FieldLabel,
 } from '@repo/ui/components/field';
 import { Input } from '@repo/ui/components/input';
+import { Spinner } from '@repo/ui/components/spinner';
 import Link from 'next/link';
-import { Activity } from 'react';
+import { redirect } from 'next/navigation';
+import { Activity, useTransition } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function SignUpForm() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<SignUpInput>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -25,7 +30,21 @@ export default function SignUpForm() {
   });
 
   async function onSubmit(data: SignUpInput) {
-    console.log(data);
+    startTransition(async () => {
+      const res = await authClient.signUp.email(data);
+
+      if (res.error) {
+        toast.error('Signup failed', {
+          description: res.error.message || 'Please verify your details and try again.',
+        });
+      } else {
+        toast.success('Account created successfully', {
+          description: 'Your account is ready',
+        });
+        form.reset();
+      }
+    });
+    redirect('/');
   }
 
   return (
@@ -71,7 +90,7 @@ export default function SignUpForm() {
           )}
         />
         <Field>
-          <Button type='submit'>Create Account</Button>
+          <Button type='submit'>{isPending ? <Spinner /> : 'Create Account'}</Button>
           <FieldDescription className='text-center'>
             Already have an account? <Link href='/login'>Sign in</Link>
           </FieldDescription>

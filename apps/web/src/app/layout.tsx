@@ -1,4 +1,5 @@
 import '@repo/ui/globals.css';
+import { Toaster } from '@repo/ui/components/sonner';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}>
         {children}
+        <Toaster richColors />
       </body>
     </html>
   );

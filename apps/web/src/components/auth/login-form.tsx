@@ -1,5 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { authClient } from '@repo/auth';
 import { type LoginInput, LoginSchema } from '@repo/schemas';
 import { Button } from '@repo/ui/components/button';
 import {
@@ -10,11 +11,15 @@ import {
   FieldLabel,
 } from '@repo/ui/components/field';
 import { Input } from '@repo/ui/components/input';
+import { Spinner } from '@repo/ui/components/spinner';
 import Link from 'next/link';
-import { Activity } from 'react';
+import { redirect } from 'next/navigation';
+import { Activity, useTransition } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function LoginForm() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<LoginInput>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -24,7 +29,21 @@ export default function LoginForm() {
   });
 
   async function onSubmit(data: LoginInput) {
-    console.log(data);
+    startTransition(async () => {
+      const res = await authClient.signIn.email(data);
+
+      if (res.error) {
+        toast.error('Login failed', {
+          description: res.error.message || 'Please check your credentials and try again.',
+        });
+      } else {
+        toast.success('Login successful', {
+          description: 'Welcome back!',
+        });
+        form.reset();
+      }
+    });
+    redirect('/');
   }
 
   return (
@@ -57,7 +76,7 @@ export default function LoginForm() {
           )}
         />
         <Field>
-          <Button type='submit'>Login</Button>
+          <Button type='submit'>{isPending ? <Spinner /> : 'Login'}</Button>
           <FieldDescription className='text-center'>
             Don&apos;t have an account? <Link href='/sign-up'>Sign up</Link>
           </FieldDescription>
